@@ -44,6 +44,25 @@ fn get_github_url(repository: &Value) -> String {
             .take(2)
             .map(|component| component.to_string())
             .collect();
+
+        if let [user, repo] = &split_shortcut[..] {
+            return format!("https://github.com/{user}/{repo}");
+        }
+    }
+
+    // Handle the unprefixed shortcut syntax
+    if repository.is_string()
+        && !repository.as_str().unwrap().contains(':')
+        && repository.as_str().unwrap().contains('/')
+    {
+        let split_shortcut: Vec<String> = repository
+            .as_str()
+            .unwrap()
+            .split('/')
+            .take(2)
+            .map(|component| component.to_string())
+            .collect();
+
         if let [user, repo] = &split_shortcut[..] {
             return format!("https://github.com/{user}/{repo}");
         }
@@ -193,6 +212,15 @@ mod tests {
     #[test]
     fn get_github_url_parses_a_string_in_prefixed_shortcut_syntax() {
         let json = r#""github:jbenner-radham/node-readme-md-cli""#;
+        let repository = serde_json::from_str(json).unwrap();
+        let url = get_github_url(&repository);
+
+        assert_eq!(url, "https://github.com/jbenner-radham/node-readme-md-cli");
+    }
+
+    #[test]
+    fn get_github_url_parses_a_string_in_unprefixed_shortcut_syntax() {
+        let json = r#""jbenner-radham/node-readme-md-cli""#;
         let repository = serde_json::from_str(json).unwrap();
         let url = get_github_url(&repository);
 
