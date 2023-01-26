@@ -91,14 +91,6 @@ fn get_github_workflows() -> Vec<String> {
     workflows
 }
 
-fn parse_package_json() -> Result<Value> {
-    let contents = fs::read_to_string("package.json")
-        .expect("Should have been able to read the package.json file");
-    let package = serde_json::from_str(&contents)?;
-
-    Ok(package)
-}
-
 fn remove_yaml_file_extension(filename: &str) -> String {
     filename.replace(".yaml", "").replace(".yml", "")
 }
@@ -114,8 +106,15 @@ fn get_alt_text(workflow: &str) -> String {
     }
 }
 
-pub fn build_nodejs_readme() -> Result<String> {
-    let package = parse_package_json().unwrap();
+pub fn parse_package_json() -> Result<Value> {
+    let contents = fs::read_to_string("package.json")
+        .expect("Should have been able to read the package.json file");
+    let package = serde_json::from_str(&contents)?;
+
+    Ok(package)
+}
+
+pub fn build_nodejs_readme(package: &Value) -> Result<String> {
     let name = package["name"].as_str().unwrap_or("");
     let private = package["private"].as_bool().unwrap_or(false);
     let description = package["description"].as_str().unwrap_or("");
