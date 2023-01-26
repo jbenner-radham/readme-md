@@ -95,6 +95,26 @@ fn remove_yaml_file_extension(filename: &str) -> String {
     filename.replace(".yaml", "").replace(".yml", "")
 }
 
+fn to_titlecase(string: &str) -> String {
+    let mut humanized = String::new();
+
+    for char in string.chars() {
+        if char.is_uppercase() {
+            humanized.push(' ');
+        }
+
+        humanized.push(char);
+    }
+
+    let humanized = humanized
+        .replace("-", " ")
+        .replace("_", " ")
+        .trim()
+        .to_string();
+
+    titlecase(&humanized)
+}
+
 fn get_alt_text(workflow: &str) -> String {
     let workflow_basename = remove_yaml_file_extension(workflow);
     let uppercase_workflow_basename = workflow_basename.to_uppercase();
@@ -102,7 +122,7 @@ fn get_alt_text(workflow: &str) -> String {
     if uppercase_workflow_basename == "CI" {
         uppercase_workflow_basename
     } else {
-        titlecase(&workflow_basename)
+        to_titlecase(&workflow_basename)
     }
 }
 
@@ -224,5 +244,45 @@ mod tests {
         let url = get_github_url(&repository);
 
         assert_eq!(url, "https://github.com/jbenner-radham/node-readme-md-cli");
+    }
+
+    #[test]
+    fn get_alt_text_changes_a_hyphenated_workflow_into_titlecase_text() {
+        let workflow = "build-release.yaml";
+        let alt_text = get_alt_text(&workflow);
+
+        assert_eq!(alt_text, "Build Release");
+    }
+
+    #[test]
+    fn get_alt_text_changes_a_snakecased_workflow_into_titlecase_text() {
+        let workflow = "build_release.yaml";
+        let alt_text = get_alt_text(&workflow);
+
+        assert_eq!(alt_text, "Build Release");
+    }
+
+    #[test]
+    fn get_alt_text_changes_a_camelcased_workflow_into_titlecase_text() {
+        let workflow = "buildRelease.yaml";
+        let alt_text = get_alt_text(&workflow);
+
+        assert_eq!(alt_text, "Build Release");
+    }
+
+    #[test]
+    fn get_alt_text_changes_a_single_word_workflow_into_titlecase_text() {
+        let workflow = "build.yaml";
+        let alt_text = get_alt_text(&workflow);
+
+        assert_eq!(alt_text, "Build");
+    }
+
+    #[test]
+    fn get_alt_text_changes_a_workflow_named_ci_into_titlecase_text() {
+        let workflow = "ci.yaml";
+        let alt_text = get_alt_text(&workflow);
+
+        assert_eq!(alt_text, "CI");
     }
 }
