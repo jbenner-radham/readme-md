@@ -17,6 +17,7 @@ impl fmt::Display for Section {
 }
 
 fn get_github_url(repository: &Value) -> String {
+    // Handle the standard object syntax.
     if repository.is_object()
         && repository["url"].is_string()
         && repository["url"].as_str().unwrap().contains("github.com")
@@ -30,12 +31,22 @@ fn get_github_url(repository: &Value) -> String {
             .replace(".git", "");
     }
 
-    if repository.is_string() && repository.as_str().unwrap().contains("github.com") {
-        return repository
+    // Handle the prefixed shortcut syntax.
+    if repository.is_string()
+        && repository.as_str().unwrap().starts_with("github:")
+        && repository.as_str().unwrap().contains('/')
+    {
+        let split_shortcut: Vec<String> = repository
             .as_str()
             .unwrap()
-            .replace("git+", "")
-            .replace(".git", "");
+            .replace("github:", "")
+            .split('/')
+            .take(2)
+            .map(|component| component.to_string())
+            .collect();
+        if let [user, repo] = &split_shortcut[..] {
+            return format!("https://github.com/{user}/{repo}");
+        }
     }
 
     String::from("")
@@ -173,6 +184,15 @@ mod tests {
                 "url": "git+https://github.com/jbenner-radham/node-readme-md-cli.git"
             }
         "#;
+        let repository = serde_json::from_str(json).unwrap();
+        let url = get_github_url(&repository);
+
+        assert_eq!(url, "https://github.com/jbenner-radham/node-readme-md-cli");
+    }
+
+    #[test]
+    fn get_github_url_parses_a_string_in_prefixed_shortcut_syntax() {
+        let json = r#""github:jbenner-radham/node-readme-md-cli""#;
         let repository = serde_json::from_str(json).unwrap();
         let url = get_github_url(&repository);
 
