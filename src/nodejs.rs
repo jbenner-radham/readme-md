@@ -68,7 +68,7 @@ fn get_github_url(repository: &Value) -> String {
         }
     }
 
-    String::from("")
+    String::new()
 }
 
 fn get_github_workflows() -> Vec<String> {
