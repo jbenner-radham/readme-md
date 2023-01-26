@@ -166,10 +166,16 @@ mod tests {
     use super::*;
 
     #[test]
-    fn h1_returns_a_lvl1_header() {
-        let text = "Hello!";
-        let result = h1(text);
+    fn get_github_url_parses_an_object() {
+        let json = r#"
+            {
+                "type": "git",
+                "url": "git+https://github.com/jbenner-radham/node-readme-md-cli.git"
+            }
+        "#;
+        let repository = serde_json::from_str(json).unwrap();
+        let url = get_github_url(&repository);
 
-        assert_eq!(result, "Hello!\n======");
+        assert_eq!(url, "https://github.com/jbenner-radham/node-readme-md-cli");
     }
 }
