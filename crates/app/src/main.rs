@@ -1,6 +1,4 @@
-mod nodejs;
-
-use crate::nodejs::{build_nodejs_readme, parse_package_json};
+use nodejs::{build_nodejs_readme, parse_package_json};
 use std::path::Path;
 use std::process::ExitCode;
 
