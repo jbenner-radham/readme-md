@@ -1,4 +1,4 @@
-use github::{get_github_workflows, GithubWorkflowBadge};
+use github::{get_github_workflows, GithubWorkflowBadges};
 use md_writer::{fenced_js_code_block, fenced_sh_code_block, h1, h2, LF};
 use readme::{Readme, Section};
 use serde_json::{Result, Value};
@@ -78,12 +78,7 @@ pub fn build_nodejs_readme(package: &Value) -> Result<String> {
     let github_workflows = get_github_workflows();
     let github_url = get_github_url(&package["repository"]);
     let description = if github_workflows.len() >= 1 && github_url.len() >= 1 {
-        let badges = github_workflows
-            .iter()
-            .map(|workflow| GithubWorkflowBadge::new(&github_url, workflow).to_string())
-            .collect::<Vec<String>>()
-            .join(&LF.to_string());
-
+        let badges = GithubWorkflowBadges::new(&github_url, &github_workflows).to_string();
         format!("{badges}{LF}{LF}{description}")
     } else {
         description.to_string()

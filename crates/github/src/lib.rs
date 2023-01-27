@@ -1,3 +1,4 @@
+use md_writer::LF;
 use std::fmt::{self, Formatter};
 use std::path::Path;
 use titlecase::titlecase;
@@ -30,6 +31,34 @@ impl fmt::Display for GithubWorkflowBadge {
             "[![{}]({})]({})",
             self.alt_text, self.image_url, self.workflow_url
         )
+    }
+}
+
+pub struct GithubWorkflowBadges {
+    badges: Vec<GithubWorkflowBadge>,
+}
+
+impl fmt::Display for GithubWorkflowBadges {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        let badges = self
+            .badges
+            .iter()
+            .map(|badge| badge.to_string())
+            .collect::<Vec<_>>()
+            .join(&LF.to_string());
+
+        write!(f, "{badges}")
+    }
+}
+
+impl GithubWorkflowBadges {
+    pub fn new(repo_url: &str, workflows: &Vec<String>) -> Self {
+        let badges = workflows
+            .iter()
+            .map(|workflow| GithubWorkflowBadge::new(repo_url, workflow))
+            .collect();
+
+        Self { badges }
     }
 }
 

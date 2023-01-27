@@ -1,4 +1,4 @@
-use github::{get_github_workflows, GithubWorkflowBadge};
+use github::{get_github_workflows, GithubWorkflowBadges};
 use md_writer::{fenced_rs_code_block, fenced_sh_code_block, h1, h2, LF};
 use readme::{Readme, Section};
 use std::fs;
@@ -36,12 +36,7 @@ pub fn build_rust_readme(cargo: &Value) -> Result<String, Error> {
     };
     let github_workflows = get_github_workflows();
     let description = if repository.contains("github.com") && github_workflows.len() > 0 {
-        let badges = github_workflows
-            .iter()
-            .map(|workflow| GithubWorkflowBadge::new(&repository, workflow).to_string())
-            .collect::<Vec<String>>()
-            .join(&LF.to_string());
-
+        let badges = GithubWorkflowBadges::new(&repository, &github_workflows).to_string();
         format!("{badges}{LF}{LF}{description}")
     } else {
         description.to_string()
