@@ -10,6 +10,11 @@ pub struct GithubWorkflowBadge {
 
 impl GithubWorkflowBadge {
     pub fn new(repo_url: &str, workflow: &str) -> Self {
+        let repo_url = if repo_url.ends_with("/") {
+            &repo_url[..repo_url.len() - 1]
+        } else {
+            repo_url
+        };
         GithubWorkflowBadge {
             alt_text: get_alt_text(workflow),
             image_url: format!("{repo_url}/actions/workflows/{workflow}/badge.svg"),

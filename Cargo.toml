@@ -3,5 +3,6 @@ members = [
   "crates/app",
   "crates/github",
   "crates/nodejs",
-  "crates/section"
+  "crates/readme",
+  "crates/rust"
 ]

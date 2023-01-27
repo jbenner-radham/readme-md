@@ -1,6 +1,6 @@
 use github::{get_github_workflows, GithubWorkflowBadge};
 use md_writer::{fenced_js_code_block, fenced_sh_code_block, h1, h2, LF};
-use section::Section;
+use readme::{Readme, Section};
 use serde_json::{Result, Value};
 use std::fs;
 
@@ -96,24 +96,24 @@ pub fn build_nodejs_readme(package: &Value) -> Result<String> {
         title: h2("Usage"),
         body: fenced_js_code_block("// To be documented."),
     };
-    let mut readme = vec![header_section];
+    let mut sections = vec![header_section];
 
     if !private {
         let install_section = Section {
             title: h2("Install"),
             body: fenced_sh_code_block(&format!("npm install {name}")),
         };
-        readme.push(install_section);
+        sections.push(install_section);
     }
 
-    readme.push(usage_section);
+    sections.push(usage_section);
 
     if has_test_script {
         let testing_section = Section {
             title: h2("Testing"),
             body: fenced_sh_code_block("npm test"),
         };
-        readme.push(testing_section);
+        sections.push(testing_section);
     }
 
     if license.len() > 0 {
@@ -125,16 +125,12 @@ pub fn build_nodejs_readme(package: &Value) -> Result<String> {
                 format!("The {license} License. See the license file(s) for details.")
             },
         };
-        readme.push(license_section);
+        sections.push(license_section);
     }
 
-    let readme = readme
-        .iter()
-        .map(|section| section.to_string())
-        .collect::<Vec<String>>()
-        .join(&LF.to_string().repeat(2));
+    let readme = Readme::new(sections);
 
-    Ok(readme)
+    Ok(readme.to_string())
 }
 
 #[cfg(test)]

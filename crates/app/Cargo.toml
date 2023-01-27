@@ -11,3 +11,4 @@ path = "src/main.rs"
 
 [dependencies]
 nodejs = { path = "../nodejs" }
+rust = { path = "../rust" }
