@@ -2,7 +2,7 @@ readme-md
 =========
 Automatically generate a readme for your project from the CLI.
 
-Currently only supports Node.js projects but other project types are planned to be added.
+Currently only supports Node.js and Rust projects but other project types are planned to be added.
 
 Building
 --------
