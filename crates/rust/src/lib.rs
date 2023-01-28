@@ -2,7 +2,12 @@ use github::{get_github_workflows, GithubWorkflowBadges};
 use md_writer::{fenced_rs_code_block, fenced_sh_code_block, h1, h2, LF};
 use readme::{Readme, Section};
 use std::fs;
+use std::path::Path;
 use toml::{de::Error, map::Map, Value};
+
+fn is_application_project() -> bool {
+    Path::new("src").join("main.rs").is_file()
+}
 
 pub fn parse_cargo_toml() -> Result<Value, Error> {
     let contents = fs::read_to_string("Cargo.toml")
@@ -45,13 +50,19 @@ pub fn build_rust_readme(cargo: &Value) -> Result<String, Error> {
         title: h1(&name),
         body: description.to_string(),
     };
+    let install_command = if is_application_project() { "install" } else { "add" };
     let install_section = Section {
         title: h2("Install"),
-        body: fenced_sh_code_block(&format!("cargo add {name}")),
+        body: fenced_sh_code_block(&format!("cargo {install_command} {name}")),
+    };
+    let usage_section_body = if is_application_project() {
+        fenced_sh_code_block("# To be documented.")
+    } else {
+        fenced_rs_code_block("// To be documented.")
     };
     let usage_section = Section {
         title: h2("Usage"),
-        body: fenced_rs_code_block("// To be documented."),
+        body: usage_section_body,
     };
     let mut sections = vec![header_section, install_section, usage_section];
 
