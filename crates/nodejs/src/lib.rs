@@ -78,7 +78,7 @@ pub fn build_nodejs_readme(package: &Value) -> Result<String> {
     let github_workflows = get_github_workflows();
     let github_url = get_github_url(&package["repository"]);
     let description = if github_workflows.len() >= 1 && github_url.len() >= 1 {
-        let badges = GithubWorkflowBadges::new(&github_url, &github_workflows).to_string();
+        let badges = GithubWorkflowBadges::new(&github_url, &github_workflows);
         format!("{badges}{LF}{LF}{description}")
     } else {
         description.to_string()

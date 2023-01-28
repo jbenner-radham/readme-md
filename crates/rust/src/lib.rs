@@ -36,7 +36,7 @@ pub fn build_rust_readme(cargo: &Value) -> Result<String, Error> {
     };
     let github_workflows = get_github_workflows();
     let description = if repository.contains("github.com") && github_workflows.len() > 0 {
-        let badges = GithubWorkflowBadges::new(&repository, &github_workflows).to_string();
+        let badges = GithubWorkflowBadges::new(&repository, &github_workflows);
         format!("{badges}{LF}{LF}{description}")
     } else {
         description.to_string()
