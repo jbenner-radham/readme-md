@@ -1,12 +1,15 @@
 use github::{get_github_workflows, GithubWorkflowBadges};
 use md_writer::{fenced_rs_code_block, fenced_sh_code_block, h1, h2, LF};
 use readme::{Readme, Section};
+use std::env;
 use std::fs;
-use std::path::Path;
 use toml::{de::Error, map::Map, Value};
 
 fn is_application_project() -> bool {
-    Path::new("src").join("main.rs").is_file()
+    let cwd = env::current_dir()
+        .expect("Should have been able to read the current directory");
+
+    cwd.join("src").join("main.rs").is_file()
 }
 
 pub fn parse_cargo_toml() -> Result<Value, Error> {
@@ -28,7 +31,7 @@ pub fn build_rust_readme(cargo: &Value) -> Result<String, Error> {
         None => String::from("<PACKAGE NAME>"),
     };
     let description = match package.get("description") {
-        Some(package) => package.as_str().unwrap().to_string(),
+        Some(description) => description.as_str().unwrap().to_string(),
         None => String::new(),
     };
     let license = match package.get("license") {
