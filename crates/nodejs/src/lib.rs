@@ -1,4 +1,5 @@
 use github::{get_github_workflows, GithubWorkflowBadges};
+use license::get_license_section_body;
 use md_writer::{fenced_js_code_block, fenced_sh_code_block, h1, h2, LF};
 use readme::{Readme, Section};
 use serde_json::{Result, Value};
@@ -114,11 +115,7 @@ pub fn build_nodejs_readme(package: &Value) -> Result<String> {
     if license.len() > 0 {
         let license_section = Section {
             title: h2("License"),
-            body: if license.to_uppercase() == "UNLICENSED" {
-                "This is unlicensed proprietary software.".to_string()
-            } else {
-                format!("The {license} License. See the license file(s) for details.")
-            },
+            body: get_license_section_body(license),
         };
         sections.push(license_section);
     }

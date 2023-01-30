@@ -69,6 +69,10 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e2abad23fbc42b3700f2f279844dc832adb2b2eb069b2df918f455c4e18cc646"
 
 [[package]]
+name = "license"
+version = "0.1.0"
+
+[[package]]
 name = "md-writer"
 version = "0.1.0"
 source = "git+https://github.com/jbenner-radham/md-writer-rs#c886702cb3f015d37cbf5dd5d6f13afa6b070f4f"
@@ -84,6 +88,7 @@ name = "nodejs"
 version = "0.1.0"
 dependencies = [
  "github",
+ "license",
  "md-writer",
  "readme",
  "serde_json",
@@ -128,6 +133,7 @@ name = "rust"
 version = "0.1.0"
 dependencies = [
  "github",
+ "license",
  "md-writer",
  "readme",
  "toml",

@@ -1,4 +1,5 @@
 use github::{get_github_workflows, GithubWorkflowBadges};
+use license::get_license_section_body;
 use md_writer::{fenced_rs_code_block, fenced_sh_code_block, h1, h2, LF};
 use readme::{Readme, Section};
 use std::env;
@@ -72,7 +73,7 @@ pub fn build_rust_readme(cargo: &Value) -> Result<String, Error> {
     if license.len() > 0 {
         let license_section = Section {
             title: h2("License"),
-            body: format!("The {license} License. See the license file(s) for details."),
+            body: get_license_section_body(&license),
         };
         sections.push(license_section);
     }

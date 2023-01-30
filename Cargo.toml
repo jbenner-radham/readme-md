@@ -2,6 +2,7 @@
 members = [
   "crates/app",
   "crates/github",
+  "crates/license",
   "crates/nodejs",
   "crates/readme",
   "crates/rust"
