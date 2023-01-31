@@ -74,6 +74,7 @@ pub fn get_github_workflows() -> Vec<String> {
             .file_name()
             .into_string()
             .unwrap_or_else(|_| String::new());
+
         if file_name.ends_with(".yaml") || file_name.ends_with(".yml") {
             workflows.push(file_name);
         }
