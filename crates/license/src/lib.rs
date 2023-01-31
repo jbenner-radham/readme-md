@@ -28,7 +28,9 @@ pub fn get_license_section_body(spdx_identifier: &str) -> String {
     if licenses.len() == 1 {
         let license = licenses[0].as_str();
 
-        return format!("The {spdx_identifier} License. See the [license file]({license}) for details.");
+        return format!(
+            "The {spdx_identifier} License. See the [license file]({license}) for details."
+        );
     }
 
     format!("The {spdx_identifier} License.")

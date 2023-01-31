@@ -70,7 +70,10 @@ pub fn get_github_workflows() -> Vec<String> {
     }
 
     for entry in path.read_dir().expect("read_dir call failed").flatten() {
-        let file_name = entry.file_name().into_string().unwrap_or_else(|_| String::new());
+        let file_name = entry
+            .file_name()
+            .into_string()
+            .unwrap_or_else(|_| String::new());
         if file_name.ends_with(".yaml") || file_name.ends_with(".yml") {
             workflows.push(file_name);
         }
@@ -105,10 +108,7 @@ fn to_titlecase(string: &str) -> String {
         humanized.push(char);
     }
 
-    let humanized = humanized
-        .replace(['-', '_'], " ")
-        .trim()
-        .to_string();
+    let humanized = humanized.replace(['-', '_'], " ").trim().to_string();
 
     titlecase(&humanized)
 }

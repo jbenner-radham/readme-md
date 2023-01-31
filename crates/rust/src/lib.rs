@@ -7,8 +7,7 @@ use std::fs;
 use toml::{de::Error, map::Map, Value};
 
 fn is_application_project() -> bool {
-    let cwd = env::current_dir()
-        .expect("Should have been able to read the current directory");
+    let cwd = env::current_dir().expect("Should have been able to read the current directory");
 
     cwd.join("src").join("main.rs").is_file()
 }
