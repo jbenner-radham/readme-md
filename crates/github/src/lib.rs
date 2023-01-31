@@ -11,10 +11,9 @@ pub struct GithubWorkflowBadge {
 
 impl GithubWorkflowBadge {
     pub fn new(repo_url: &str, workflow: &str) -> Self {
-        let repo_url = if repo_url.ends_with("/") {
-            &repo_url[..repo_url.len() - 1]
-        } else {
-            repo_url
+        let repo_url = match repo_url.strip_suffix('/') {
+            Some(stripped_url) => stripped_url,
+            None => repo_url,
         };
         GithubWorkflowBadge {
             alt_text: get_alt_text(workflow),
@@ -52,7 +51,7 @@ impl fmt::Display for GithubWorkflowBadges {
 }
 
 impl GithubWorkflowBadges {
-    pub fn new(repo_url: &str, workflows: &Vec<String>) -> Self {
+    pub fn new(repo_url: &str, workflows: &[String]) -> Self {
         let badges = workflows
             .iter()
             .map(|workflow| GithubWorkflowBadge::new(repo_url, workflow))
@@ -70,12 +69,10 @@ pub fn get_github_workflows() -> Vec<String> {
         return workflows;
     }
 
-    for entry in path.read_dir().expect("read_dir call failed") {
-        if let Ok(entry) = entry {
-            let file_name = entry.file_name().into_string().unwrap_or("".to_string());
-            if file_name.ends_with(".yaml") || file_name.ends_with(".yml") {
-                workflows.push(file_name);
-            }
+    for entry in path.read_dir().expect("read_dir call failed").flatten() {
+        let file_name = entry.file_name().into_string().unwrap_or_else(|_| String::new());
+        if file_name.ends_with(".yaml") || file_name.ends_with(".yml") {
+            workflows.push(file_name);
         }
     }
 
@@ -109,8 +106,7 @@ fn to_titlecase(string: &str) -> String {
     }
 
     let humanized = humanized
-        .replace("-", " ")
-        .replace("_", " ")
+        .replace(['-', '_'], " ")
         .trim()
         .to_string();
 

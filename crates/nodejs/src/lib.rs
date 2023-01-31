@@ -75,10 +75,10 @@ pub fn build_nodejs_readme(package: &Value) -> Result<String> {
     let license = package["license"].as_str().unwrap_or("");
     let test_script = package["scripts"]["test"].as_str().unwrap_or("");
     let null_test_script = "echo \"Error: no test specified\" && exit 1";
-    let has_test_script = test_script.len() > 0 && test_script != null_test_script;
+    let has_test_script = !test_script.is_empty() && test_script != null_test_script;
     let github_workflows = get_github_workflows();
     let github_url = get_github_url(&package["repository"]);
-    let description = if github_workflows.len() >= 1 && github_url.len() >= 1 {
+    let description = if !github_workflows.is_empty() && !github_url.is_empty() {
         let badges = GithubWorkflowBadges::new(&github_url, &github_workflows);
         format!("{badges}{LF}{LF}{description}")
     } else {
@@ -86,7 +86,7 @@ pub fn build_nodejs_readme(package: &Value) -> Result<String> {
     };
     let header_section = Section {
         title: h1(name),
-        body: description.to_string(),
+        body: description,
     };
     let usage_section = Section {
         title: h2("Usage"),
@@ -112,7 +112,7 @@ pub fn build_nodejs_readme(package: &Value) -> Result<String> {
         sections.push(testing_section);
     }
 
-    if license.len() > 0 {
+    if !license.is_empty() {
         let license_section = Section {
             title: h2("License"),
             body: get_license_section_body(license),

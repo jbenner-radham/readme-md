@@ -44,15 +44,15 @@ pub fn build_rust_readme(cargo: &Value) -> Result<String, Error> {
         None => String::new(),
     };
     let github_workflows = get_github_workflows();
-    let description = if repository.contains("github.com") && github_workflows.len() > 0 {
+    let description = if repository.contains("github.com") && !github_workflows.is_empty() {
         let badges = GithubWorkflowBadges::new(&repository, &github_workflows);
         format!("{badges}{LF}{LF}{description}")
     } else {
-        description.to_string()
+        description
     };
     let header_section = Section {
         title: h1(&name),
-        body: description.to_string(),
+        body: description,
     };
     let install_command = if is_application_project() { "install" } else { "add" };
     let install_section = Section {
@@ -70,7 +70,7 @@ pub fn build_rust_readme(cargo: &Value) -> Result<String, Error> {
     };
     let mut sections = vec![header_section, install_section, usage_section];
 
-    if license.len() > 0 {
+    if !license.is_empty() {
         let license_section = Section {
             title: h2("License"),
             body: get_license_section_body(&license),
