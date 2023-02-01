@@ -68,7 +68,7 @@ pub fn parse_package_json() -> Result<Value> {
     Ok(package)
 }
 
-pub fn build_nodejs_readme(package: &Value) -> Result<String> {
+pub fn build_node_js_readme(package: &Value) -> Result<String> {
     let name = package["name"].as_str().unwrap_or("<PACKAGE NAME>");
     let private = package["private"].as_bool().unwrap_or(false);
     let description = package["description"].as_str().unwrap_or("");

@@ -4,7 +4,7 @@ mod node_js;
 mod readme;
 mod rust;
 
-use crate::node_js::{build_nodejs_readme, parse_package_json};
+use crate::node_js::{build_node_js_readme, parse_package_json};
 use crate::rust::{build_rust_readme, parse_cargo_toml};
 use std::path::Path;
 use std::process::ExitCode;
@@ -13,7 +13,7 @@ fn main() -> ExitCode {
     // Is a Node.js project.
     if Path::new("package.json").is_file() {
         return match parse_package_json() {
-            Ok(package) => match build_nodejs_readme(&package) {
+            Ok(package) => match build_node_js_readme(&package) {
                 Ok(readme) => {
                     println!("{readme}");
                     ExitCode::SUCCESS
