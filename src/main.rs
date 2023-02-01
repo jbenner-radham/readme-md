@@ -1,5 +1,11 @@
-use nodejs::{build_nodejs_readme, parse_package_json};
-use rust::{build_rust_readme, parse_cargo_toml};
+mod github;
+mod license;
+mod node_js;
+mod readme;
+mod rust;
+
+use crate::node_js::{build_nodejs_readme, parse_package_json};
+use crate::rust::{build_rust_readme, parse_cargo_toml};
 use std::path::Path;
 use std::process::ExitCode;
 

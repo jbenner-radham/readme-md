@@ -12,27 +12,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "app"
-version = "0.1.0"
-dependencies = [
- "nodejs",
- "rust",
-]
-
-[[package]]
 name = "autocfg"
 version = "1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d468802bab17cbc0cc575e9b053f41e72aa36bfa6b7f55e3529ffa43161b97fa"
-
-[[package]]
-name = "github"
-version = "0.1.0"
-dependencies = [
- "md-writer",
- "serde_json",
- "titlecase",
-]
 
 [[package]]
 name = "hashbrown"
@@ -69,31 +52,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e2abad23fbc42b3700f2f279844dc832adb2b2eb069b2df918f455c4e18cc646"
 
 [[package]]
-name = "license"
-version = "0.1.0"
-
-[[package]]
 name = "md-writer"
 version = "0.1.0"
-source = "git+https://github.com/jbenner-radham/md-writer-rs#c886702cb3f015d37cbf5dd5d6f13afa6b070f4f"
+source = "git+https://github.com/jbenner-radham/md-writer-rs#930606d9b1ac8808cba70c639bc75ef31e70ed62"
 
 [[package]]
 name = "memchr"
 version = "2.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2dffe52ecf27772e601905b7522cb4ef790d2cc203488bbd0e2fe85fcb74566d"
-
-[[package]]
-name = "nodejs"
-version = "0.1.0"
-dependencies = [
- "github",
- "license",
- "md-writer",
- "readme",
- "serde_json",
- "titlecase",
-]
 
 [[package]]
 name = "nom8"
@@ -105,10 +72,13 @@ dependencies = [
 ]
 
 [[package]]
-name = "readme"
+name = "readme-md"
 version = "0.1.0"
 dependencies = [
  "md-writer",
+ "serde_json",
+ "titlecase",
+ "toml",
 ]
 
 [[package]]
@@ -127,17 +97,6 @@ name = "regex-syntax"
 version = "0.6.28"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "456c603be3e8d448b072f410900c09faf164fbce2d480456f50eea6e25f9c848"
-
-[[package]]
-name = "rust"
-version = "0.1.0"
-dependencies = [
- "github",
- "license",
- "md-writer",
- "readme",
- "toml",
-]
 
 [[package]]
 name = "ryu"
@@ -164,9 +123,9 @@ dependencies = [
 
 [[package]]
 name = "serde_spanned"
-version = "0.6.0"
+version = "0.6.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2c68e921cef53841b8925c2abadd27c9b891d9613bdc43d6b823062866df38e8"
+checksum = "0efd8caf556a6cebd3b285caf480045fcc1ac04f6bd786b09a6f11af30c4fcf4"
 dependencies = [
  "serde",
 ]
@@ -184,9 +143,9 @@ dependencies = [
 
 [[package]]
 name = "toml"
-version = "0.7.0"
+version = "0.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2f560bc7fb3eb31f5eee1340c68a2160cad39605b7b9c9ec32045ddbdee13b85"
+checksum = "772c1426ab886e7362aedf4abc9c0d1348a979517efedfc25862944d10137af0"
 dependencies = [
  "serde",
  "serde_spanned",
@@ -196,18 +155,18 @@ dependencies = [
 
 [[package]]
 name = "toml_datetime"
-version = "0.6.0"
+version = "0.6.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "886f31a9b85b6182cabd4d8b07df3b451afcc216563748201490940d2a28ed36"
+checksum = "3ab8ed2edee10b50132aed5f331333428b011c99402b5a534154ed15746f9622"
 dependencies = [
  "serde",
 ]
 
 [[package]]
 name = "toml_edit"
-version = "0.19.0"
+version = "0.19.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "233d8716cdc5d20ec88a18a839edaf545edc71efa4a5ff700ef4a102c26cd8fa"
+checksum = "90a238ee2e6ede22fb95350acc78e21dc40da00bb66c0334bde83de4ed89424e"
 dependencies = [
  "indexmap",
  "nom8",

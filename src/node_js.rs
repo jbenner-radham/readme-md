@@ -1,7 +1,7 @@
-use github::{get_github_workflows, GithubWorkflowBadges};
-use license::get_license_section_body;
+use crate::github::{get_github_workflows, GithubWorkflowBadges};
+use crate::license::get_license_section_body;
+use crate::readme::{Readme, Section};
 use md_writer::{fenced_js_code_block, fenced_sh_code_block, h1, h2, LF};
-use readme::{Readme, Section};
 use serde_json::{Result, Value};
 use std::fs;
 

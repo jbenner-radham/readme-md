@@ -1,9 +1,17 @@
-[workspace]
-members = [
-  "crates/app",
-  "crates/github",
-  "crates/license",
-  "crates/nodejs",
-  "crates/readme",
-  "crates/rust"
-]
+[package]
+name = "readme-md"
+version = "0.1.0"
+description = "Automatically generate a readme for your project from the CLI."
+authors = ["James Benner <james.benner@gmail.com>"]
+license = "MIT"
+repository = "https://github.com/jbenner-radham/readme-md/"
+homepage = "https://github.com/jbenner-radham/readme-md/"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+md-writer = { git = "https://github.com/jbenner-radham/md-writer-rs" }
+serde_json = "1.0.91"
+titlecase = "2.2.1"
+toml = "0.7.0"
